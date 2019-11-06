@@ -11,13 +11,25 @@ proceedCHoice
 }
 proceedCHoice () {
 read choice 
-if [ $choice -eq 6 ]
-then
-exit 1
-fi
+
 if [ $choice -eq 1 ]
 then
 echo $PWD
+fi
+
+if [ $choice -eq 2 ]
+then
+FILE=lab1.txt
+if test -f "$FILE"; then
+    echo "$FILE exist so impossible to create it"
+else
+echo >> lab1.txt #create txt file with empty line
+fi
+fi
+
+if [ $choice -eq 6 ]
+then
+exit 1
 fi
 menu
 }
