@@ -32,6 +32,11 @@ then
 chmod 760 lab1.txt
 fi
 
+if [ $choice -eq 4 ]
+then
+chmod u-w lab1.txt
+fi
+
 if [ $choice -eq 5 ]
 then
 if test -f "lab1_mv.txt"; then
