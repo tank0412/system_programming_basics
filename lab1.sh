@@ -19,29 +19,29 @@ fi
 
 if [ $choice -eq 2 ]
 then
-FILE=lab1.txt
+FILE=lab*1.txt
 if test -f "$FILE"; then
     echo "$FILE exist so impossible to create it" >> lab1_err.txt
 else
-echo >> lab1.txt #create txt file with empty line
+echo >> lab*1.txt #create txt file with empty line
 fi
 fi
 
 if [ $choice -eq 3 ] 
 then
-if ! test -f "lab1.txt"; then
+if ! test -f "lab*1.txt"; then
     echo "lab1.txt does not exists so impossible to change it permissions" >> lab1_err.txt
 else
-chmod 760 lab1.txt
+chmod 760 lab*1.txt
 fi
 fi
 
 if [ $choice -eq 4 ] 
 then
-if ! test -f "lab1.txt"; then
-    echo "lab1.txt does not exists so impossible to change it permissions" >> lab1_err.txt
+if ! test -f "lab*1.txt"; then
+    echo "lab*1.txt does not exists so impossible to change it permissions" >> lab1_err.txt
 else
-chmod u-w lab1.txt
+chmod u-w lab*1.txt
 fi
 fi
 
@@ -50,10 +50,10 @@ then
 if test -f "lab1_mv.txt"; then
     echo "lab1_mv.txt exists so impossible to rename lab1.txt to it" >> lab1_err.txt
 elif
-test -f "lab1.txt"; then
-    mv "lab1.txt" "lab1_mv.txt"
+test -f "lab*1.txt"; then
+    mv "lab*1.txt" "lab1_mv.txt"
 else
-echo "lab1.txt does not exists so impossible to rename it" >> lab1_err.txt
+echo "lab*1.txt does not exists so impossible to rename it" >> lab1_err.txt
 fi
 fi
 
