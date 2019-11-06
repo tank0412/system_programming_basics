@@ -21,7 +21,7 @@ if [ $choice -eq 2 ]
 then
 FILE=lab1.txt
 if test -f "$FILE"; then
-    echo "$FILE exist so impossible to create it"
+    echo "$FILE exist so impossible to create it" >> lab1_err.txt
 else
 echo >> lab1.txt #create txt file with empty line
 fi
@@ -40,12 +40,12 @@ fi
 if [ $choice -eq 5 ]
 then
 if test -f "lab1_mv.txt"; then
-    echo "lab1_mv.txt exists so impossible to rename lab1.txt to it"
+    echo "lab1_mv.txt exists so impossible to rename lab1.txt to it" >> lab1_err.txt
 elif
 test -f "lab1.txt"; then
     mv "lab1.txt" "lab1_mv.txt"
 else
-echo "lab1.txt does not exists so impossible to rename it"
+echo "lab1.txt does not exists so impossible to rename it" >> lab1_err.txt
 fi
 fi
 
