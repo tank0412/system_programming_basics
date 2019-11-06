@@ -27,6 +27,18 @@ echo >> lab1.txt #create txt file with empty line
 fi
 fi
 
+if [ $choice -eq 5 ]
+then
+if test -f "lab1_mv.txt"; then
+    echo "lab1_mv.txt exists so impossible to rename lab1.txt to it"
+elif
+test -f "lab1.txt"; then
+    mv "lab1.txt" "lab1_mv.txt"
+else
+echo "lab1.txt does not exists so impossible to rename it"
+fi
+fi
+
 if [ $choice -eq 6 ]
 then
 exit 1
