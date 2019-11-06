@@ -27,14 +27,22 @@ echo >> lab1.txt #create txt file with empty line
 fi
 fi
 
-if [ $choice -eq 3 ]
+if [ $choice -eq 3 ] 
 then
+if ! test -f "lab1.txt"; then
+    echo "lab1.txt does not exists so impossible to change it permissions" >> lab1_err.txt
+else
 chmod 760 lab1.txt
 fi
+fi
 
-if [ $choice -eq 4 ]
+if [ $choice -eq 4 ] 
 then
+if ! test -f "lab1.txt"; then
+    echo "lab1.txt does not exists so impossible to change it permissions" >> lab1_err.txt
+else
 chmod u-w lab1.txt
+fi
 fi
 
 if [ $choice -eq 5 ]
