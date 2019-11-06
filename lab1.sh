@@ -27,6 +27,11 @@ echo >> lab1.txt #create txt file with empty line
 fi
 fi
 
+if [ $choice -eq 3 ]
+then
+chmod 760 lab1.txt
+fi
+
 if [ $choice -eq 5 ]
 then
 if test -f "lab1_mv.txt"; then
