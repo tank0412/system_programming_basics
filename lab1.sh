@@ -14,7 +14,7 @@ read choice
 
 if [ $choice -eq 1 ]
 then
-echo $PWD
+echo  ${PWD##*/}
 fi
 
 if [ $choice -eq 2 ]
@@ -65,4 +65,3 @@ menu
 }
 
 menu
-
