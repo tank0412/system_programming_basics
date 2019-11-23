@@ -36,7 +36,7 @@ getFileName FILE
 if ! test -f $FILE; then
     echo "file does not exists so impossible to change it permissions" >> lab1_err.txt
 else
-chmod 760 $FILE
+chmod 760 -- $FILE
 fi
 menu
 ;;
@@ -47,7 +47,7 @@ getFileName FILE
 if ! test -f $FILE; then
     echo "file does not exists so impossible to change it permissions" >> lab1_err.txt
 else
-chmod u-w $FILE
+chmod u-w -- $FILE
 fi
 menu
 ;;
@@ -65,7 +65,7 @@ if test -f $FILE2; then
     echo "file exists so impossible to rename file1.txt to it" >> lab1_err.txt
 elif
 test -f $FILE; then
-    mv $FILE $FILE2
+    mv -- $FILE $FILE2
 else
 echo "file does not exists so impossible to rename it" >> lab1_err.txt
 fi
