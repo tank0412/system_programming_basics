@@ -12,41 +12,41 @@ proceedCHoice
 proceedCHoice () {
 read choice 
 
-if [ $choice -eq 1 ]
-then
+case $choice in 
+"1") 
 echo  ${PWD##*/}
-fi
+menu
+;;
 
-if [ $choice -eq 2 ]
-then
+"2") 
 FILE=lab*1.txt
 if test -f "$FILE"; then
     echo "$FILE exist so impossible to create it" >> lab1_err.txt
 else
 echo >> lab*1.txt #create txt file with empty line
 fi
-fi
+menu
+;;
 
-if [ $choice -eq 3 ] 
-then
+"3")
 if ! test -f "lab*1.txt"; then
     echo "lab1.txt does not exists so impossible to change it permissions" >> lab1_err.txt
 else
 chmod 760 lab*1.txt
 fi
-fi
+menu
+;;
 
-if [ $choice -eq 4 ] 
-then
+"4")
 if ! test -f "lab*1.txt"; then
     echo "lab*1.txt does not exists so impossible to change it permissions" >> lab1_err.txt
 else
 chmod u-w lab*1.txt
 fi
-fi
+menu
+;;
 
-if [ $choice -eq 5 ]
-then
+"5")
 if test -f "lab1_mv.txt"; then
     echo "lab1_mv.txt exists so impossible to rename lab1.txt to it" >> lab1_err.txt
 elif
@@ -55,12 +55,15 @@ test -f "lab*1.txt"; then
 else
 echo "lab*1.txt does not exists so impossible to rename it" >> lab1_err.txt
 fi
-fi
+menu
+;;
 
-if [ $choice -eq 6 ]
-then
+"6")
 exit 1
-fi
+;;
+esac
+
+echo "Некорректный ввод"
 menu
 }
 
