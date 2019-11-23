@@ -20,40 +20,54 @@ menu
 
 "2") 
 FILE=lab*1.txt
+getFileName FILE
+echo $FILE
 if test -f "$FILE"; then
     echo "$FILE exist so impossible to create it" >> lab1_err.txt
 else
-echo >> lab*1.txt #create txt file with empty line
+echo >> $FILE #create txt file with empty line
 fi
 menu
 ;;
 
 "3")
-if ! test -f "lab*1.txt"; then
-    echo "lab1.txt does not exists so impossible to change it permissions" >> lab1_err.txt
+FILE=lab*1.txt
+getFileName FILE
+if ! test -f $FILE; then
+    echo "file does not exists so impossible to change it permissions" >> lab1_err.txt
 else
-chmod 760 lab*1.txt
+chmod 760 $FILE
 fi
 menu
 ;;
 
 "4")
-if ! test -f "lab*1.txt"; then
-    echo "lab*1.txt does not exists so impossible to change it permissions" >> lab1_err.txt
+FILE=lab*1.txt
+getFileName FILE
+if ! test -f $FILE; then
+    echo "file does not exists so impossible to change it permissions" >> lab1_err.txt
 else
-chmod u-w lab*1.txt
+chmod u-w $FILE
 fi
 menu
 ;;
 
 "5")
-if test -f "lab1_mv.txt"; then
-    echo "lab1_mv.txt exists so impossible to rename lab1.txt to it" >> lab1_err.txt
+echo "Старое имя файла"
+FILE=lab*1.txt
+getFileName FILE
+
+echo "Новое имя файла"
+FILE2=lab1_mv.txt
+getFileName FILE2
+
+if test -f $FILE2; then
+    echo "file exists so impossible to rename file1.txt to it" >> lab1_err.txt
 elif
-test -f "lab*1.txt"; then
-    mv "lab*1.txt" "lab1_mv.txt"
+test -f $FILE; then
+    mv $FILE $FILE2
 else
-echo "lab*1.txt does not exists so impossible to rename it" >> lab1_err.txt
+echo "file does not exists so impossible to rename it" >> lab1_err.txt
 fi
 menu
 ;;
@@ -65,6 +79,13 @@ esac
 
 echo "Некорректный ввод"
 menu
+}
+
+getFileName() {
+local  __resultvar=$1
+echo "Введите имя файла"
+read fileName 
+eval $__resultvar=$fileName
 }
 
 menu
