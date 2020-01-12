@@ -5,7 +5,7 @@
 
 using namespace std;
 
-int MAX = 50;
+int MAX = 900;
 
 int main(int argc, char** argv) {
     FILE *fp;
@@ -34,11 +34,25 @@ int main(int argc, char** argv) {
     
     fp=fopen(fullPath, "r");
     char buffer[MAX];
+    int countOfLines = 0;
     if(fp != NULL) {
         printf("File opened;");
         printf("\n");
-        while (fgets(buffer, MAX, fp) != NULL)
-        printf("%s", buffer);
+        while (fgets(buffer, MAX, fp) != NULL) {
+            int length = strlen(buffer);
+            if(buffer[length -1] == '\n' ) {
+            if(strcmp(buffer, "") != 0) {
+            countOfLines++;
+            if(countOfLines >= 10) {
+                continue;
+            }
+            printf("%s", buffer);
+            }
+        }
+        }
+        //printf("%d",countOfLines / 2);
+        printf("\n");
+        //printf("%s", buffer);
         fclose(fp);
     }
     
