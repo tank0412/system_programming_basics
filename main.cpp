@@ -19,8 +19,13 @@ int main(int argc, char** argv) {
         maxBufLines = atoi(argv[i+1]);
         }
     }
+    if(strcmp(argv[i], "-c") == 0) {
+        if(*argv[i+1] >= '0' && *argv[i+1] <= '9' ) {
+        MAX = atoi(argv[i+1]);
+        }
     }
-    char cwd[MAX];
+    }
+    char cwd[90];
     if (getcwd(cwd, sizeof(cwd)) != NULL) {
        printf("Current working dir: %s\n", cwd);
     }
@@ -41,7 +46,8 @@ int main(int argc, char** argv) {
     printf("\n");
     printf(fullPath);
     printf("\n");
-    */
+      */
+    
     
     fp=fopen(fullPath, "r");
     char buffer[MAX];
@@ -49,8 +55,12 @@ int main(int argc, char** argv) {
     if(fp != NULL) {
         printf("File opened;");
         printf("\n");
-        while (fgets(buffer, MAX, fp) != NULL) {
+        while (fgets(buffer, MAX+1, fp) != NULL) {
             int length = strlen(buffer);
+            if(length == MAX) {
+            printf("%s", buffer);
+            break;
+            }
             if(buffer[length -1] == '\n' ) {
             if(strcmp(buffer, "") != 0) {
             countOfLines++;
@@ -58,7 +68,7 @@ int main(int argc, char** argv) {
                 continue;
             }
             printf("%s", buffer);
-            }
+        }
         }
         }
         //printf("%d",countOfLines / 2);
