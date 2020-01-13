@@ -54,14 +54,19 @@ int main(int argc, char** argv) {
       */
     
     int fd = open (argv[fileNameIndex], O_RDONLY);
+    int fr = open ("output.txt", O_WRONLY | O_CREAT);
     
     
     char buffer[MAX];
     int countOfLines = 0;
     if(fd >= 0) {
+        write (fr, "File opened; \n", 14);
         printf("File opened;");
         printf("\n");
         if(displayNameOfFile == 1 && fileNameIndex != 0) {
+        write (fr, "==>", 3);
+        write (fr, argv[fileNameIndex], 5);
+        write (fr, "<==\n", 4);
         printf("==> %s <== \n", argv[fileNameIndex]);
         }
         
@@ -73,6 +78,7 @@ int main(int argc, char** argv) {
         length++;
         if(length == MAX) {
            putchar (ch);
+           write (fr, &ch, 1);
             //printf("%d > %d \n", length, MAX);
             break;
             }
@@ -85,6 +91,7 @@ int main(int argc, char** argv) {
         }
         }
         putchar (ch);
+        write (fr, &ch, 1);
 	}
     }
         //printf("%d",countOfLines / 2);
@@ -92,6 +99,7 @@ int main(int argc, char** argv) {
         //printf("%s", buffer);
         //fclose(fp);
     close (fd);
+    close (fr);
     return 0;
 }
 
