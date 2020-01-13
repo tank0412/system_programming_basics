@@ -3,15 +3,15 @@
 #include <string.h>
 #include <unistd.h>
 #include <ctype.h>
+#include <fcntl.h>
 
 using namespace std;
 
-int MAX = 900;
+int MAX = 9000;
 
 int displayNameOfFile = 0;
 
 int main(int argc, char** argv) {
-    FILE *fp;
     int maxBufLines = 10;
     printf("Lab2 Bukhtiarov P3418 ");
     for(int i =1; i < argc; i++) { // ignore 0 argument whith exec path
@@ -53,38 +53,45 @@ int main(int argc, char** argv) {
     printf("\n");
       */
     
+    int fd = open (argv[fileNameIndex], O_RDONLY);
     
-    fp=fopen(fullPath, "r");
+    
     char buffer[MAX];
     int countOfLines = 0;
-    if(fp != NULL) {
+    if(fd >= 0) {
         printf("File opened;");
         printf("\n");
         if(displayNameOfFile == 1 && fileNameIndex != 0) {
         printf("==> %s <== \n", argv[fileNameIndex]);
         }
-        while (fgets(buffer, MAX+1, fp) != NULL) {
-            int length = strlen(buffer);
-            if(length == MAX) {
-            printf("%s", buffer);
+        
+        ssize_t ret;
+	char ch;
+        int length = 0;
+        while ((ret = read (fd, &ch, 1)) > 0)
+	{
+        length++;
+        if(length == MAX) {
+           putchar (ch);
+            //printf("%d > %d \n", length, MAX);
             break;
             }
-            if(buffer[length -1] == '\n' ) {
-            if(strcmp(buffer, "") != 0) {
+            if(ch == '\n' ) {
+            if(strcmp(&ch, "") != 0) {
             countOfLines++;
-            if(countOfLines > maxBufLines) {
-                continue;
+            if(countOfLines >= maxBufLines) {
+                break;
             }
-            printf("%s", buffer);
         }
         }
-        }
+        putchar (ch);
+	}
+    }
         //printf("%d",countOfLines / 2);
         printf("\n");
         //printf("%s", buffer);
-        fclose(fp);
-    }
-    
+        //fclose(fp);
+    close (fd);
     return 0;
 }
 
