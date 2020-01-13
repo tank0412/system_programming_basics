@@ -8,6 +8,8 @@ using namespace std;
 
 int MAX = 900;
 
+int displayNameOfFile = 0;
+
 int main(int argc, char** argv) {
     FILE *fp;
     int maxBufLines = 10;
@@ -24,6 +26,9 @@ int main(int argc, char** argv) {
         MAX = atoi(argv[i+1]);
         }
     }
+        if(strcmp(argv[i], "-v") == 0) {
+            displayNameOfFile = 1;
+        }
     }
     char cwd[90];
     if (getcwd(cwd, sizeof(cwd)) != NULL) {
@@ -55,6 +60,9 @@ int main(int argc, char** argv) {
     if(fp != NULL) {
         printf("File opened;");
         printf("\n");
+        if(displayNameOfFile == 1 && fileNameIndex != 0) {
+        printf("==> %s <== \n", argv[fileNameIndex]);
+        }
         while (fgets(buffer, MAX+1, fp) != NULL) {
             int length = strlen(buffer);
             if(length == MAX) {
