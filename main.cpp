@@ -15,8 +15,7 @@ int maxBufLines = 10;
 
 int fileNameIndex = 0;
 
-void proceedFile(int descIn, int descOut, char** argv  ) {    
-    char buffer[MAX];
+void proceedFile(int descIn, int descOut, char* nameOfFile  ) {    
     int countOfLines = 0;
     
     if(descIn >= 0) {
@@ -25,9 +24,9 @@ void proceedFile(int descIn, int descOut, char** argv  ) {
         printf("\n");
         if(displayNameOfFile == 1 && fileNameIndex != 0) {
         write (descOut, "==>", 3);
-        write (descOut, argv[fileNameIndex], 5);
+        write (descOut, nameOfFile, 5);
         write (descOut, "<==\n", 4);
-        printf("==> %s <== \n", argv[fileNameIndex]);
+        printf("==> %s <== \n", nameOfFile);
         }
         
         ssize_t ret;
@@ -81,13 +80,26 @@ int main(int argc, char** argv) {
     
     char* fullPath;
     char slash[2] = {'/'};
+    int fileIndex[10];
     while(strstr(argv[fileNameIndex], ".txt") == NULL) {
     fileNameIndex++;
     }
-    fullPath = (char*)malloc(strlen(cwd)+strlen(argv[fileNameIndex]) + strlen(slash)); /* make space for the new string (should check the return value ...) */
+    int z = 0;
+    fileIndex[z] = fileNameIndex;
+    while(strstr(argv[fileNameIndex], ".txt") != NULL) {
+    fileIndex[z] = fileNameIndex;
+    fileNameIndex++;
+    if(fileNameIndex >= argc ) {
+        break; 
+    }
+    z++;
+    }
+    
+    for(int i = 0; i <= z; ++ i) {
+    fullPath = (char*)malloc(strlen(cwd)+strlen(argv[fileIndex[i]]) + strlen(slash)); /* make space for the new string (should check the return value ...) */
     strcpy(fullPath, cwd); /* copy name into the new var */
     strcat(fullPath, slash);
-    strcat(fullPath, argv[fileNameIndex]); /* add the extension */
+    strcat(fullPath, argv[fileIndex[i]]); /* add the extension */
     
     /*
     printf(slash);
@@ -96,10 +108,10 @@ int main(int argc, char** argv) {
     printf("\n");
       */
     
-    int fd = open (argv[fileNameIndex], O_RDONLY);
+    int fd = open (argv[fileIndex[i]], O_RDONLY);
     int fr = open ("output.txt", O_WRONLY | O_CREAT);
     
-    proceedFile(fd, fr, argv);
+    proceedFile(fd, fr, argv[fileIndex[i]] );
     
     //printf("%d",countOfLines / 2);
     printf("\n");
@@ -107,6 +119,7 @@ int main(int argc, char** argv) {
     //fclose(fp);
     close (fd);
     close (fr);
+    }
     return 0;
 }
 
