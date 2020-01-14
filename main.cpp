@@ -11,8 +11,52 @@ int MAX = 9000;
 
 int displayNameOfFile = 0;
 
+int maxBufLines = 10;
+
+int fileNameIndex = 0;
+
+void proceedFile(int descIn, int descOut, char** argv  ) {    
+    char buffer[MAX];
+    int countOfLines = 0;
+    
+    if(descIn >= 0) {
+        write (descOut, "File opened; \n", 14);
+        printf("File opened;");
+        printf("\n");
+        if(displayNameOfFile == 1 && fileNameIndex != 0) {
+        write (descOut, "==>", 3);
+        write (descOut, argv[fileNameIndex], 5);
+        write (descOut, "<==\n", 4);
+        printf("==> %s <== \n", argv[fileNameIndex]);
+        }
+        
+        ssize_t ret;
+	char ch;
+        int length = 0;
+        while ((ret = read (descIn, &ch, 1)) > 0)
+	{
+        length++;
+        if(length == MAX) {
+           putchar (ch);
+           write (descOut, &ch, 1);
+            //printf("%d > %d \n", length, MAX);
+            break;
+            }
+            if(ch == '\n' ) {
+            if(strcmp(&ch, "") != 0) {
+            countOfLines++;
+            if(countOfLines >= maxBufLines) {
+                break;
+            }
+        }
+        }
+        putchar (ch);
+        write (descOut, &ch, 1);
+	}
+    }
+}
+
 int main(int argc, char** argv) {
-    int maxBufLines = 10;
     printf("Lab2 Bukhtiarov P3418 ");
     for(int i =1; i < argc; i++) { // ignore 0 argument whith exec path
     printf("Argument %d: %s\n", i, argv[i]);
@@ -37,7 +81,6 @@ int main(int argc, char** argv) {
     
     char* fullPath;
     char slash[2] = {'/'};
-    int fileNameIndex = 0;
     while(strstr(argv[fileNameIndex], ".txt") == NULL) {
     fileNameIndex++;
     }
@@ -56,48 +99,12 @@ int main(int argc, char** argv) {
     int fd = open (argv[fileNameIndex], O_RDONLY);
     int fr = open ("output.txt", O_WRONLY | O_CREAT);
     
+    proceedFile(fd, fr, argv);
     
-    char buffer[MAX];
-    int countOfLines = 0;
-    if(fd >= 0) {
-        write (fr, "File opened; \n", 14);
-        printf("File opened;");
-        printf("\n");
-        if(displayNameOfFile == 1 && fileNameIndex != 0) {
-        write (fr, "==>", 3);
-        write (fr, argv[fileNameIndex], 5);
-        write (fr, "<==\n", 4);
-        printf("==> %s <== \n", argv[fileNameIndex]);
-        }
-        
-        ssize_t ret;
-	char ch;
-        int length = 0;
-        while ((ret = read (fd, &ch, 1)) > 0)
-	{
-        length++;
-        if(length == MAX) {
-           putchar (ch);
-           write (fr, &ch, 1);
-            //printf("%d > %d \n", length, MAX);
-            break;
-            }
-            if(ch == '\n' ) {
-            if(strcmp(&ch, "") != 0) {
-            countOfLines++;
-            if(countOfLines >= maxBufLines) {
-                break;
-            }
-        }
-        }
-        putchar (ch);
-        write (fr, &ch, 1);
-	}
-    }
-        //printf("%d",countOfLines / 2);
-        printf("\n");
-        //printf("%s", buffer);
-        //fclose(fp);
+    //printf("%d",countOfLines / 2);
+    printf("\n");
+    //printf("%s", buffer);
+    //fclose(fp);
     close (fd);
     close (fr);
     return 0;
