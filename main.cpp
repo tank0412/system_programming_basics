@@ -57,6 +57,8 @@ void proceedFile(int descIn, int descOut, char* nameOfFile  ) {
 
 int main(int argc, char** argv) {
     int blockDisplayNameOfFile = 0;
+    mode_t mode = S_IRUSR | S_IWUSR;
+    int flags = O_WRONLY | O_CREAT | O_EXCL;
     printf("Lab2 Bukhtiarov P3418 ");
     for(int i =1; i < argc; i++) { // ignore 0 argument whith exec path
     printf("Argument %d: %s\n", i, argv[i]);
@@ -101,7 +103,7 @@ int main(int argc, char** argv) {
     }
     z++;
     }
-    int fr = open ("output.txt", O_WRONLY | O_CREAT);
+    int fr = open ("output.txt", flags, mode);
     
     for(int i = 0; i <= z; ++ i) {
     fullPath = (char*)malloc(strlen(cwd)+strlen(argv[fileIndex[i]]) + strlen(slash)); /* make space for the new string (should check the return value ...) */
@@ -129,4 +131,3 @@ int main(int argc, char** argv) {
     close (fr);
     return 0;
 }
-
