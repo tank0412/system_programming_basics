@@ -56,6 +56,7 @@ void proceedFile(int descIn, int descOut, char* nameOfFile  ) {
 }
 
 int main(int argc, char** argv) {
+    int blockDisplayNameOfFile = 0;
     printf("Lab2 Bukhtiarov P3418 ");
     for(int i =1; i < argc; i++) { // ignore 0 argument whith exec path
     printf("Argument %d: %s\n", i, argv[i]);
@@ -71,6 +72,9 @@ int main(int argc, char** argv) {
     }
         if(strcmp(argv[i], "-v") == 0) {
             displayNameOfFile = 1;
+        }
+        if(strcmp(argv[i], "-q") == 0) {
+            blockDisplayNameOfFile = 1;
         }
     }
     char cwd[90];
@@ -92,7 +96,9 @@ int main(int argc, char** argv) {
     if(fileNameIndex >= argc ) {
         break; 
     }
+    if(blockDisplayNameOfFile != 1) {
     displayNameOfFile = 1;
+    }
     z++;
     }
     int fr = open ("output.txt", O_WRONLY | O_CREAT);
