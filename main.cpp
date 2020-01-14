@@ -94,6 +94,7 @@ int main(int argc, char** argv) {
     }
     z++;
     }
+    int fr = open ("output.txt", O_WRONLY | O_CREAT);
     
     for(int i = 0; i <= z; ++ i) {
     fullPath = (char*)malloc(strlen(cwd)+strlen(argv[fileIndex[i]]) + strlen(slash)); /* make space for the new string (should check the return value ...) */
@@ -109,7 +110,6 @@ int main(int argc, char** argv) {
       */
     
     int fd = open (argv[fileIndex[i]], O_RDONLY);
-    int fr = open ("output.txt", O_WRONLY | O_CREAT);
     
     proceedFile(fd, fr, argv[fileIndex[i]] );
     
@@ -118,8 +118,8 @@ int main(int argc, char** argv) {
     //printf("%s", buffer);
     //fclose(fp);
     close (fd);
-    close (fr);
     }
+    close (fr);
     return 0;
 }
 
