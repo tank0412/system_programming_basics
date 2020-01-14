@@ -92,6 +92,7 @@ int main(int argc, char** argv) {
     if(fileNameIndex >= argc ) {
         break; 
     }
+    displayNameOfFile = 1;
     z++;
     }
     int fr = open ("output.txt", O_WRONLY | O_CREAT);
