@@ -4,8 +4,11 @@
 #include <unistd.h>
 #include <ctype.h>
 #include <fcntl.h>
+#include <errno.h>
 
 using namespace std;
+
+extern int errno ;
 
 int MAX = 9000;
 
@@ -58,7 +61,8 @@ void proceedFile(int descIn, int descOut, char* nameOfFile  ) {
 int main(int argc, char** argv) {
     int blockDisplayNameOfFile = 0;
     mode_t mode = S_IRUSR | S_IWUSR;
-    int flags = O_WRONLY | O_CREAT | O_EXCL;
+    int flags = O_WRONLY | O_CREAT;
+    int fr = open ("output.txt", flags, mode);
     printf("Lab2 Bukhtiarov P3418 ");
     for(int i =1; i < argc; i++) { // ignore 0 argument whith exec path
     printf("Argument %d: %s\n", i, argv[i]);
@@ -66,26 +70,43 @@ int main(int argc, char** argv) {
         if(*argv[i+1] >= '0' && *argv[i+1] <= '9' ) {
         maxBufLines = atoi(argv[i+1]);
         }
+        else {
+        fprintf(stderr, "Not a digit passed for '-n' argument \n");
+        write (fr, "Not a digit passed for '-n' argument \n", 38);
+        }
+        i++;
+        continue;
     }
     if(strcmp(argv[i], "-c") == 0) {
         if(*argv[i+1] >= '0' && *argv[i+1] <= '9' ) {
         MAX = atoi(argv[i+1]);
         }
-    }
-        if(strcmp(argv[i], "-v") == 0) {
-            displayNameOfFile = 1;
+        else {
+        fprintf(stderr, "Not a digit passed for '-c' argument \n");
+        write (fr, "Not a digit passed for '-c' argument \n", 38);
         }
-        if(strcmp(argv[i], "-q") == 0) {
-            blockDisplayNameOfFile = 1;
-        }
+        i++;
+        continue;
     }
+    if(strcmp(argv[i], "-v") == 0) {
+        displayNameOfFile = 1;
+        continue;
+    }
+    if(strcmp(argv[i], "-q") == 0) {
+        blockDisplayNameOfFile = 1;
+        continue;
+    }
+   
+    if(strcmp(argv[i], "-n") && strcmp(argv[i], "-c") && strcmp(argv[i], "-v") && strcmp(argv[i], "-q") && (strstr(argv[i], ".txt") == NULL)) {
+    fprintf(stderr, "Wrong argument is passed \n");
+    }
+    }
+    
     char cwd[90];
     if (getcwd(cwd, sizeof(cwd)) != NULL) {
        printf("Current working dir: %s\n", cwd);
     }
     
-    char* fullPath;
-    char slash[2] = {'/'};
     int fileIndex[10];
     while(strstr(argv[fileNameIndex], ".txt") == NULL) {
     fileNameIndex++;
@@ -103,10 +124,17 @@ int main(int argc, char** argv) {
     }
     z++;
     }
-    int fr = open ("output.txt", flags, mode);
     
     for(int i = 0; i <= z; ++ i) {
     int fd = open (argv[fileIndex[i]], O_RDONLY);
+    if (fd < 0)
+    {
+        //fprintf(stderr, "Value of errno: %d\n", errno);
+        fprintf(stderr, "Error opening file: %s\n", strerror( errno ));
+        write (fr, "Error opening file \n", 20);
+        write (fr, strerror( errno ), 25);
+        
+    }
     proceedFile(fd, fr, argv[fileIndex[i]] );
     close (fd);
     }
