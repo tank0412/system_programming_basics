@@ -106,26 +106,8 @@ int main(int argc, char** argv) {
     int fr = open ("output.txt", flags, mode);
     
     for(int i = 0; i <= z; ++ i) {
-    fullPath = (char*)malloc(strlen(cwd)+strlen(argv[fileIndex[i]]) + strlen(slash)); /* make space for the new string (should check the return value ...) */
-    strcpy(fullPath, cwd); /* copy name into the new var */
-    strcat(fullPath, slash);
-    strcat(fullPath, argv[fileIndex[i]]); /* add the extension */
-    
-    /*
-    printf(slash);
-    printf("\n");
-    printf(fullPath);
-    printf("\n");
-      */
-    
     int fd = open (argv[fileIndex[i]], O_RDONLY);
-    
     proceedFile(fd, fr, argv[fileIndex[i]] );
-    
-    //printf("%d",countOfLines / 2);
-    printf("\n");
-    //printf("%s", buffer);
-    //fclose(fp);
     close (fd);
     }
     close (fr);
