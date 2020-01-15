@@ -60,6 +60,7 @@ void proceedFile(int descIn, int descOut, char* nameOfFile  ) {
 
 int main(int argc, char** argv) {
     int blockDisplayNameOfFile = 0;
+    int enableStdIn = 0;
     mode_t mode = S_IRUSR | S_IWUSR;
     int flags = O_WRONLY | O_CREAT;
     int fr = open ("output.txt", flags, mode);
@@ -96,11 +97,17 @@ int main(int argc, char** argv) {
         blockDisplayNameOfFile = 1;
         continue;
     }
+    
+    if(strcmp(argv[i], "-") == 0) {
+        enableStdIn = 1;
+        continue;
+    }
    
     if(strcmp(argv[i], "-n") && strcmp(argv[i], "-c") && strcmp(argv[i], "-v") && strcmp(argv[i], "-q") && (strstr(argv[i], ".txt") == NULL)) {
     fprintf(stderr, "Wrong argument is passed \n");
     }
     }
+    if(enableStdIn == 0) {
     
     char cwd[90];
     if (getcwd(cwd, sizeof(cwd)) != NULL) {
@@ -139,5 +146,29 @@ int main(int argc, char** argv) {
     close (fd);
     }
     close (fr);
+    }
+    else {
+    char buffer[MAX];
+    int lines = 0;
+
+    int iter = 0;
+    while (fgets(buffer, MAX+1, stdin) && buffer[0] != '\n') {
+        int l = strlen(buffer);
+        if('\n'==buffer[l-1])
+        {
+            lines++;
+        }
+
+        write (fr, &buffer, strlen(buffer));
+        
+        if(lines >= maxBufLines) {
+            break;
+        }
+        if( MAX != 9000) {
+            break;
+        }
+
+    }
+    }
     return 0;
 }
