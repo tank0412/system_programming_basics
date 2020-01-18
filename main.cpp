@@ -10,8 +10,8 @@ using namespace std;
 
 extern int errno ;
 
-int MAX = 9000;
-
+int MAX = 9000; // Моё значение по умолчанию
+//3 флага
 int displayNameOfFile = 0;
 
 int maxBufLines = 10;
@@ -61,7 +61,7 @@ void proceedFile(int descIn, int descOut, char* nameOfFile  ) {
 int main(int argc, char** argv) {
     int blockDisplayNameOfFile = 0;
     int enableStdIn = 0;
-    mode_t mode = S_IRUSR | S_IWUSR;
+    mode_t mode = S_IRUSR | S_IWUSR; // Read and write permission bit for the owner of the file
     int flags = O_WRONLY | O_CREAT;
     int fr = open ("output.txt", flags, mode);
     printf("Lab2 Bukhtiarov P3418 ");
@@ -89,6 +89,7 @@ int main(int argc, char** argv) {
         i++;
         continue;
     }
+    //Set flags if arguments is passed
     if(strcmp(argv[i], "-v") == 0) {
         displayNameOfFile = 1;
         continue;
@@ -108,12 +109,6 @@ int main(int argc, char** argv) {
     }
     }
     if(enableStdIn == 0) {
-    
-    char cwd[90];
-    if (getcwd(cwd, sizeof(cwd)) != NULL) {
-       printf("Current working dir: %s\n", cwd);
-    }
-    
     int fileIndex[10];
     while(strstr(argv[fileNameIndex], ".txt") == NULL) {
     fileNameIndex++;
@@ -151,7 +146,6 @@ int main(int argc, char** argv) {
     char buffer[MAX];
     int lines = 0;
 
-    int iter = 0;
     while (fgets(buffer, MAX+1, stdin) && buffer[0] != '\n') {
         int l = strlen(buffer);
         if('\n'==buffer[l-1])
@@ -164,6 +158,7 @@ int main(int argc, char** argv) {
         if(lines >= maxBufLines) {
             break;
         }
+        //Если значение Max отличается от значения по умолчанию
         if( MAX != 9000) {
             break;
         }
